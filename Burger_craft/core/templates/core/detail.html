@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ burger.name }} | BurgerCraft</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-amber-50/50 font-sans text-gray-800">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-black text-amber-600 tracking-wider">BURGER<span class="text-amber-900">CRAFT</span></a>
+            <div class="space-x-8 font-medium">
+                <a href="/" class="hover:text-amber-600 transition">Home</a>
+                <a href="/#menu-section" class="hover:text-amber-600 transition">Menu</a>
+                <a href="/about/" class="hover:text-amber-600 transition">About</a>
+                <a href="{% url 'cart_detail' %}" class="hover:text-amber-600 transition">
+                    <i class="fa-solid fa-basket-shopping text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 md:py-20">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2 gap-8 p-6 md:p-12 border border-amber-100">
+            
+            <div class="bg-amber-50 rounded-2xl p-6 flex justify-center items-center relative group">
+                <span class="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider animate-pulse">Fresh Craft</span>
+                <img src="{{ burger.image_url }}" alt="{{ burger.name }}" class="h-80 md:h-96 object-cover transform group-hover:scale-105 transition duration-300 drop-shadow-2xl">
+            </div>
+
+            <div class="flex flex-col justify-between space-y-6">
+                <div class="space-y-4">
+                    <span class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-md uppercase tracking-wide">{{ burger.category }}</span>
+                    <h1 class="text-3xl md:text-5xl font-black text-gray-950 tracking-tight">{{ burger.name }}</h1>
+                    
+                    <div class="flex items-center space-x-4 text-sm font-medium">
+                        <div class="text-amber-500 flex items-center gap-1">
+                            <i class="fa-solid fa-star"></i>
+                            <span class="text-gray-900 font-bold">4.9</span>
+                        </div>
+                        <span class="text-gray-300">|</span>
+                        <span class="text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full text-xs font-bold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> In Stock
+                        </span>
+                    </div>
+
+                    <p class="text-gray-600 leading-relaxed text-sm md:text-base">
+                        {{ burger.description }}
+                    </p>
+                </div>
+
+                <form action="{% url 'add_to_cart' burger.id %}" method="POST" class="space-y-6">
+                    {% csrf_token %}
+
+                    <div class="border-t border-b border-gray-100 py-4 space-y-4">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-4xl font-black text-gray-950">₹{{ burger.price }}</span>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Quantity</label>
+                            <div class="flex items-center border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
+                                <button type="button" class="px-3 py-2 text-gray-600 hover:bg-gray-200 transition font-bold" onclick="changeQty(-1)">-</button>
+                                <input type="number" id="quantity" name="quantity" value="1" min="1" class="w-12 text-center bg-transparent border-none text-gray-900 font-bold focus:outline-none">
+                                <button type="button" class="px-3 py-2 text-gray-600 hover:bg-gray-200 transition font-bold" onclick="changeQty(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black py-4 rounded-2xl shadow-lg hover:from-amber-600 hover:to-amber-700 transition transform active:scale-[0.98] flex items-center justify-center gap-3 tracking-wide text-base cursor-pointer">
+                            <i class="fa-solid fa-basket-shopping text-lg"></i> ADD TO CRAFT CART
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function changeQty(amount) {
+            const qtyInput = document.getElementById('quantity');
+            let currentVal = parseInt(qtyInput.value);
+            if (!isNaN(currentVal)) {
+                let newVal = currentVal + amount;
+                if (newVal >= 1) qtyInput.value = newVal;
+            }
+        }
+    </script>
+
+</body>
+</html>

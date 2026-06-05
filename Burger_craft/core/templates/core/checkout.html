@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Checkout | BurgerCraft</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-amber-50/50 font-sans text-gray-800">
+
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-black text-amber-600 tracking-wider">BURGER<span class="text-amber-900">CRAFT</span></a>
+            <span class="text-xs font-bold uppercase tracking-widest text-gray-400"><i class="fa-solid fa-lock text-emerald-500"></i> Secure Checkout</span>
+        </div>
+    </nav>
+
+    <main class="max-w-md mx-auto px-4 py-12">
+        <div class="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-amber-100 space-y-6">
+            
+            <div class="text-center space-y-2">
+                <h1 class="text-2xl font-black text-gray-950">Make Payment</h1>
+                <p class="text-sm text-gray-500">Amount to pay: <b class="text-amber-600 text-lg">₹{{ grand_total }}</b></p>
+            </div>
+
+            <form action="{% url 'payment_success' %}" method="GET" class="space-y-4">
+                
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Delivery Address</label>
+                    <input type="text" placeholder="Flat, House no., Apartment" required class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-sm font-medium focus:outline-amber-500">
+                    <input type="text" placeholder="Landmark / Area" required class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-sm font-medium focus:outline-amber-500">
+                </div>
+
+                <hr class="border-gray-100 my-4">
+
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider">Card Information</label>
+                    <div class="relative">
+                        <input type="text" maxlength="16" placeholder="4242 •••• •••• 4242" required class="w-full pl-4 pr-10 py-3 border border-gray-200 rounded-xl bg-gray-50 text-sm font-medium focus:outline-amber-500">
+                        <i class="fa-solid fa-credit-card absolute right-4 top-3.5 text-gray-400 text-base"></i>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" maxlength="5" placeholder="MM/YY" required class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-sm font-medium focus:outline-amber-500 text-center">
+                        <input type="password" maxlength="3" placeholder="CVV" required class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-sm font-medium focus:outline-amber-500 text-center">
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-black py-4 rounded-2xl shadow-lg hover:from-emerald-600 hover:to-emerald-700 transition transform active:scale-[0.98] flex items-center justify-center gap-2 tracking-wide text-base cursor-pointer">
+                        <i class="fa-solid fa-shield-halved"></i> PAY NOW
+                    </button>
+                </div>
+            </form>
+
+            <p class="text-center text-[11px] text-gray-400 font-medium leading-relaxed">
+                This is a secure mock sandbox environment. No real payment or card verification takes place.
+            </p>
+        </div>
+    </main>
+
+</body>
+</html>

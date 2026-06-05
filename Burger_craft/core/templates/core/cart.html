@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Craft Cart | BurgerCraft</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-amber-50/50 font-sans text-gray-800">
+
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-black text-amber-600 tracking-wider">BURGER<span class="text-amber-900">CRAFT</span></a>
+            <div class="space-x-8 font-medium">
+                <a href="/" class="hover:text-amber-600 transition">Home</a>
+                <a href="/#menu-section" class="hover:text-amber-600 transition">Menu</a>
+                <a href="/about/" class="hover:text-amber-600 transition">About</a>
+                <a href="/cart/" class="text-amber-600 font-bold"><i class="fa-solid fa-basket-shopping text-xl"></i></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <h1 class="text-3xl font-black text-gray-950 mb-8 flex items-center gap-3">
+            <i class="fa-solid fa-basket-shopping text-amber-500"></i> Your Selected Crafts
+        </h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-4">
+                {% for item in cart_items %}
+                <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4 relative group">
+                    
+                    <img src="{{ item.burger.image_url }}" alt="{{ item.burger.name }}" class="w-20 h-20 object-cover rounded-xl bg-amber-50">
+                    
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-gray-950 text-base md:text-lg">{{ item.burger.name }}</h3>
+                                <p class="text-xs font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded inline-block mt-1">{{ item.burger.category }}</p>
+                            </div>
+                            <a href="{% url 'remove_from_cart' item.burger.id %}" class="text-gray-400 hover:text-red-500 transition p-1">
+                                <i class="fa-solid fa-trash-can text-lg"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="flex items-center border border-gray-200 rounded-xl bg-gray-50 overflow-hidden">
+                                <a href="{% url 'update_cart_qty' item.burger.id 'decrease' %}" class="px-2.5 py-1 text-gray-600 hover:bg-gray-200 transition font-bold text-sm">-</a>
+                                <span class="w-8 text-center text-gray-900 font-bold text-sm">{{ item.quantity }}</span>
+                                <a href="{% url 'update_cart_qty' item.burger.id 'increase' %}" class="px-2.5 py-1 text-gray-600 hover:bg-gray-200 transition font-bold text-sm">+</a>
+                            </div>
+                            <span class="font-black text-gray-950 text-base">₹{{ item.total_price }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="bg-white p-12 rounded-3xl border border-dashed border-gray-200 text-center space-y-4 shadow-sm">
+                    <div class="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto text-amber-500 text-2xl">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                    </div>
+                    <p class="text-gray-500 font-medium">Your cart is currently empty, Add something delicious!! </p>
+                    <a href="/" class="inline-block bg-amber-500 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow hover:bg-amber-600 transition">Go To Home</a>
+                </div>
+                {% endfor %}
+            </div>
+
+            {% if cart_items %}
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-fit space-y-6">
+                <h2 class="text-lg font-black text-gray-950 border-b border-gray-100 pb-3">Order Summary</h2>
+                <div class="space-y-3 font-medium text-sm text-gray-600">
+                    <div class="flex justify-between">
+                        <span>Subtotal</span>
+                        <span class="text-gray-950 font-bold">₹{{ grand_total }}</span>
+                    </div>
+                    <div class="flex justify-between text-emerald-600">
+                        <span>Delivery</span>
+                        <span class="font-bold">FREE</span>
+                    </div>
+                    <hr class="border-gray-100 my-2">
+                    <div class="flex justify-between text-base font-black text-gray-950">
+                        <span>Grand Total</span>
+                        <span class="text-amber-600 text-xl">₹{{ grand_total }}</span>
+                    </div>
+                </div>
+                <a href="{% url 'checkout' %}" class="block text-center w-full bg-amber-500 text-white font-black py-3.5 rounded-xl shadow hover:bg-amber-600 transition tracking-wide text-sm cursor-pointer">
+                    PROCEED TO PAY
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+</body>
+</html>
