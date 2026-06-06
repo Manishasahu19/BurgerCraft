@@ -2,12 +2,12 @@
 
 An awesome Burger ordering and customization website built using **Django** and deployed on **Render**.
 
-## Features 🚀
+## Features 
 * Browse delicious burgers
 * Add items to cart & manage quantities
 * Easy checkout process
 
-## Tech Stack 🛠️
+## Tech Stack 
 * Backend: Django (Python)
 * Frontend: HTML, CSS, JavaScript
 * Server/Deployment: Gunicorn & Render
